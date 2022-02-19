@@ -9,6 +9,8 @@ function randomChoice(arr,optionType){
     let chooseOption = Math.floor(Math.random() * arr.length);
     let optionIndex = chooseOption;
     console.log(`${optionType}: ${arr[chooseOption]}`);
+    let optionChoice = `${optionType}: ${arr[chooseOption]}`;
+    return optionChoice;
 }
 
 randomChoice(destinationChoices,"Destination");
@@ -16,3 +18,4 @@ randomChoice(restaurantChoices,"Restaurant");
 randomChoice(transportationChoices,"Transportation");
 randomChoice(entertainmentChoices,"Entertainment");
 
+let tripApproval = prompt("Do you like this trip?");
