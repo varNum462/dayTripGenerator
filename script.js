@@ -1,60 +1,84 @@
 "use strict";
-
-let destinationChoices = ["Washington, D.C.","Philadelphia","Annapolis","Ocean City","Richmond","New York City"];
-let restaurantChoices = ["McDonald's","Applebee's","Cheesecake Factory","Outback Steakhouse","Red Lobster"];
-let transportationChoices = ["Car","Bus","Train","Plane"]
-let entertainmentChoices = ["Museum","Historical Landmark","Live Band","Pub Crawl","Sporting Event","Wine Tasting","Dog Show"]
-
-function randomChoice(arr,optionType){
-    let chooseOption = Math.floor(Math.random() * arr.length);
-    let optionIndex = chooseOption;
-    let optionChoice = `${optionType}: ${arr[chooseOption]}`;    
-    return optionChoice;
+function chooseDestination(){
+    let destinationChoices = ["Washington, D.C.","Philadelphia","Annapolis","Ocean City","Richmond","New York City"];
+    let finalDestination = destinationChoices[Math.floor(Math.random()*destinationChoices.length)];
+    return finalDestination;
+}
+function chooseRestaurant(){
+    let restaurantChoices = ["McDonald's","Applebee's","Cheesecake Factory","Outback Steakhouse","Red Lobster"];
+    let finalRestaurant = restaurantChoices[Math.floor(Math.random()*restaurantChoices.length)];
+    return finalRestaurant;
 }
 
-let finalDestination = randomChoice(destinationChoices,"Destination");  
-let finalRestaurant = randomChoice(restaurantChoices,"Restaurant");
-let finalTransportation = randomChoice(transportationChoices,"Transportation");
-let finalEntertainment = randomChoice(entertainmentChoices,"Entertainment");
-
-function printTrip(){
-  console.log(`Your random trip:\n ${finalDestination}\n ${finalRestaurant}\n ${finalTransportation}\n ${finalEntertainment}`);
+function chooseTransportation(){
+    let transportationChoices = ["Car","Bus","Train","Plane"];
+    let finalTransportation = transportationChoices[Math.floor(Math.random()*transportationChoices.length)];
+    return finalTransportation;
 }
 
-function chooseNew(arr,optionType){
-  let isThisOk = confirm(`Is the ${optionType} ok?`);
-  while(isThisOk === false){
-    let newChoice = randomChoice(arr,optionType);
-    let isThisNewOneOk = confirm(`Is the ${newChoice} ok?`);
-    if(isThisNewOneOk === true){
-      isThisOk = true;
-    }
-  }
+function chooseEntertainment(){
+    let entertainmentChoices = ["Museum","Historical Landmark","Live Band","Pub Crawl","Sporting Event","Wine Tasting","Dog Show"];
+    let finalEntertainment = entertainmentChoices[Math.floor(Math.random()*entertainmentChoices.length)];
+    return finalEntertainment;
 }
 
-//finalDestination = chooseNew(restaurantChoices,"Restaurant");
+let tripOptions = [chooseDestination(), chooseRestaurant(), chooseTransportation(), chooseEntertainment()];
+let selectedDestination = tripOptions[0];
+let selectedRestaurant = tripOptions[1];
+let selectedTransportation = tripOptions[2];
+let selectedEntertainment = tripOptions[3];
 
-function requestApproval(){
-  let tripApproval = confirm("Do you like this trip?");
-  while(tripApproval != true){
-    let changeWhat = prompt(`What would you like to change?\n Enter D for destination\nEnter R for restaurant\nEnter T for Transportation\nEnter E for Entertainment`);
-    if(changeWhat = "D"){
-      let newDestination = chooseNew(destinationChoices,"Destination");
-    }
-    else if(changeWhat = "R"){
-      let newRestaurant = chooseNew(restaurantChoices,"Restaurant");
-    }
-    else if(changeWhat = "T"){
-      let newTrans = chooseNew(transportationChoices,"Transportation");
-    }
-    else if(changeWhat = "D"){
-      let newEntertainment = chooseNew(entertainmentChoices,"Entertainment")
-    }
-    else{
-      alert("Please enter one of the given choices - D, R, T or E")
-    };
-  }
+function tripSelections() {
+    selectedDestination = chooseDestination();
+    selectedRestaurant = chooseRestaurant();
+    selectedTransportation = chooseTransportation();
+    selectedEntertainment = chooseEntertainment();
+    return selectedDestination, selectedRestaurant, selectedTransportation, selectedEntertainment;
 }
 
-printTrip();
-requestApproval();
+function tripItinerary(){
+    alert(`Your day trip will be as follows:\n Destination - ${selectedDestination}\n Restaurant - ${selectedRestaurant}\n Transportation - ${selectedTransportation}\n Entertainment - ${selectedEntertainment}`);
+}
+
+function keepOrChangeTrip() {
+   let tripChoice = parseInt(prompt(`Enter 0 if you\'re happy with your trip\nEnter 1 to change destination\n Enter 2 to change restaurant\n Enter 3 to change transportation\n Enter 4 to change entertainment\n Enter 86 to change everything`));
+    return tripChoice;
+}
+
+tripItinerary();
+
+let tripchoiceValues = true
+
+while (tripchoiceValues) {
+    let travelersChoice = keepOrChangeTrip();
+    
+    if(travelersChoice === 1) {
+        selectedDestination = chooseDestination();
+        tripItinerary();
+    }
+    else if(travelersChoice === 2) {
+        selectedRestaurant = chooseRestaurant();
+        tripItinerary();
+    }
+    else if(travelersChoice === 3) {
+        selectedTransportation = chooseTransportation();
+        tripItinerary();
+    }
+    else if(travelersChoice === 4) {
+        selectedEntertainment = chooseEntertainment();
+        tripItinerary();
+    }
+    else if (travelersChoice === 86) {
+        tripSelections();
+        tripItinerary();
+    }
+    else if (travelersChoice === 0) {
+        alert(`Your trip is approved and finalized! Enjoy your ${selectedTransportation} trip to ${selectedDestination}, your meal at ${selectedRestaurant}, and the ${selectedEntertainment}! Please like and share on Instagram!`);
+        console.log(`Finalized itinerary:\n  Destination - ${selectedDestination}\n  Restaurant - ${selectedRestaurant}\n  Transportation - ${selectedTransportation}\n  Entertainment - ${selectedEntertainment}`);
+        tripchoiceValues = false;
+    }
+    else {
+        console.log("Invalid choice.");
+    }
+
+}
